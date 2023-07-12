@@ -19,6 +19,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const routes = require('./routes/Users/routesUsers');
 app.use('/api', routes);
 
+const routesOngs = require('./routes/Ongs/routesOngs');
+app.use('/api', routesOngs);
+
 // Iniciar o servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
