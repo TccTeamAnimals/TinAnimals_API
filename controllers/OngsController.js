@@ -1,4 +1,5 @@
 const Ong = require('../models/Ongs');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   async getAll(req, res) {
@@ -30,11 +31,15 @@ module.exports = {
     console.log("reqbodyyy", req.body)
     const { email, password } = req.body;
     try {
-      const ong = await Ong.findOne({ where: { email, password } });
+      const ong = await Ong.findOne({ where: { email } });
       if (!ong) {
         res.status(404).json({ message: 'ong not found' });
       } else {
-        res.json(ong);
+        const isPasswordValid = await bcrypt.compare(password, ong.password);
+        if (isPasswordValid) {
+          res.json(ong);
+          // return res.status(401).json({ message: 'Invalid password' });
+        }
       }
     } catch (error) {
       console.error(error);
@@ -43,13 +48,22 @@ module.exports = {
   },
 
   async createOng(req, res) {
-    const { name, phone, email, password, typeCad } = req.body;
+    const { id, name, phone, email, password, typeCad } = req.body;
     try {
       const emailUsed = await Ong.findOne({ where: { email } });
       if (emailUsed) {
         return res.status(400).json({ message: 'email already used' });
       }
-      const ong = await Ong.create({ name , phone, email, password, typeCad });
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const ong = await Ong.create({ 
+        id, 
+        name, 
+        phone, 
+        email, 
+        password: hashedPassword, 
+        typeCad 
+      });
       res.json(ong);
       
     } catch (error) {

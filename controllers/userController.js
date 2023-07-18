@@ -1,4 +1,5 @@
 const User = require('../models/Users');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   async getAll(req, res) {
@@ -30,11 +31,15 @@ module.exports = {
     console.log("reqbodyyy", req.body)
     const { email, password } = req.body;
     try {
-      const user = await User.findOne({ where: { email, password } });
+      const user = await User.findOne({ where: { email } });
       if (!user) {
         res.status(404).json({ message: 'user not found' });
       } else {
-        res.json(user);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (isPasswordValid) {
+          res.json(user);
+          // return res.status(401).json({ message: 'Invalid password' });
+        }
       }
     } catch (error) {
       console.error(error);
@@ -43,7 +48,7 @@ module.exports = {
   },
 
   async createUser(req, res) {
-    const { name, phone, cpf, email, password, typeCad } = req.body;
+    const { id, name, phone, cpf, email, password, typeCad } = req.body;
     try {
       const emailUsed = await User.findOne({ where: { email } });
       const cpfUsed = await User.findOne({ where: { cpf } });
@@ -53,7 +58,16 @@ module.exports = {
       else if (cpfUsed) {
         return res.status(400).json({ message: 'cpf already used' });
       }
-      const user = await User.create({ name , phone, cpf, email, password, typeCad });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await User.create({ 
+        id,
+        name, 
+        phone, 
+        cpf, 
+        email, 
+        password: hashedPassword, 
+        typeCad 
+      });
       res.json(user);
       
     } catch (error) {
