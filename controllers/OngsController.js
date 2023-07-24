@@ -74,18 +74,33 @@ module.exports = {
 
   async updateOng(req, res) {
     const { id } = req.params;
-    const { name, phone, email, password, typeCad } = req.body;
+    const { name, phone, password } = req.body;
     try {
       const ong = await Ong.findByPk(id);
       if (!ong) {
         res.status(404).json({ message: 'Ong não encontrada' });
       } else {
-        ong.name = name;
-        ong.phone = phone;
-        ong.email = email;
-        ong.password = password;
-        ong.typeCad = typeCad;
+        // Use um objeto auxiliar para armazenar os campos a serem atualizados
+        const updatedFields = {};
+        
+        // Verifique se cada campo não está vazio e atualize apenas os campos não vazios
+        if (name !== undefined && name.trim() !== '') {
+          updatedFields.name = name.trim();
+        }
+        if (phone !== undefined && phone.trim() !== '') {
+          updatedFields.phone = phone.trim();
+        }
+        if (password !== undefined && password.trim() !== '') {
+          updatedFields.password = await bcrypt.hash(password, 10);
+        }
+  
+        //ong destino 
+        // updatedFields = origin {name: 'nome', phone: 'telefone', password: 'senha'}
+        Object.assign(ong, updatedFields);
+  
+ 
         await ong.save();
+  
         res.json(ong);
       }
     } catch (error) {
