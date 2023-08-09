@@ -1,5 +1,6 @@
 const Ong = require('../models/Ongs');
 const bcrypt = require('bcryptjs');
+const RegisterAnimal = require('../models/RegisterAnimals');
 
 module.exports = {
   async getAll(req, res) {
@@ -109,6 +110,8 @@ module.exports = {
     }
   },
 
+
+
   async deleteOng(req, res) {
     const { id } = req.params;
     try {
@@ -124,4 +127,69 @@ module.exports = {
       res.status(500).json({ message: 'Erro interno do servidor' });
     }
   },
+
+
+  async registerAnimal(req, res) {
+    const { id, name, imageUrl, description } = req.body;
+    const ongId = req.body.ongId; // Supondo que você tenha armazenado o ID da ONG logada na propriedade ongId
+
+    try {
+      // Verifique se a ONG logada existe no banco de dados
+      const ong = await Ong.findByPk(ongId);
+      console.log("onggg", id)
+      if (!ong) {
+        return res.status(404).json({ message: 'Ong not found' });
+      }
+
+      // Crie o novo registro de animal associado à ONG logada
+      const animal = await RegisterAnimal.create({
+        id,
+        ong_id: ongId,
+        name,
+        image_url: imageUrl,
+        description,
+      });
+
+      res.json(animal);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  },
+
+  async getAnimalsByOng(req, res) {
+    const { id } = req.params;
+    try {
+      const animals = await RegisterAnimal.findAll({
+        where: {
+          ong_id: id,
+        },
+      });
+      
+      return res.json(animals);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  async deleteAnimal(req, res) {
+    const { id } = req.params;
+    try {
+      const animal = await RegisterAnimal.findByPk(id);
+      if (!animal) {
+        res.status(404).json({ message: 'animal não encontrado' });
+      } else {
+        await animal.destroy();
+        res.json({ message: 'animal removido com sucesso' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+  },
+
+
+
+
 };
