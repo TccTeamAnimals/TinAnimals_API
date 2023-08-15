@@ -190,6 +190,16 @@ module.exports = {
   },
 
 
+  async getAnimals(req, res) {
+    try {
+      const animals = await RegisterAnimal.findAll();
+      res.json(animals);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+  },
+
 
 
 };
