@@ -22,6 +22,9 @@ app.use('/api', routes);
 const routesOngs = require('./routes/Ongs/routesOngs');
 app.use('/api', routesOngs);
 
+const routesLikes = require('./routes/LikedAnimal/routesLikedAnimal');
+app.use('/api', routesLikes);
+
 // Iniciar o servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

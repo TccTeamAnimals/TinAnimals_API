@@ -130,8 +130,8 @@ module.exports = {
 
 
   async registerAnimal(req, res) {
-    const { id, name, imageUrl, description } = req.body;
-    const ongId = req.body.ongId; // Supondo que você tenha armazenado o ID da ONG logada na propriedade ongId
+    const { id, name, imageUrl, idade, sexo, raca } = req.body;
+    const ongId = req.body.ongId; 
 
     try {
       // Verifique se a ONG logada existe no banco de dados
@@ -141,13 +141,14 @@ module.exports = {
         return res.status(404).json({ message: 'Ong not found' });
       }
 
-      // Crie o novo registro de animal associado à ONG logada
       const animal = await RegisterAnimal.create({
         id,
         ong_id: ongId,
         name,
         image_url: imageUrl,
-        description,
+        idade,
+        sexo,
+        raca
       });
 
       res.json(animal);

@@ -20,7 +20,19 @@ const RegisterAnimal = sequelize.define('RegisterAnimals', {
     type: DataTypes.STRING,
     allowNull: false,
   }, 
-  description: {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }, 
+  idade: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }, 
+  raca: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }, 
+  sexo: {
     type: DataTypes.STRING,
     allowNull: false,
   }, 
