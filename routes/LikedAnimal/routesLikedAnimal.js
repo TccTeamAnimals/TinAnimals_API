@@ -6,7 +6,8 @@ const likedAnimalsControllers = require('../../controllers/likedAnimalsControlle
 
 // Rotas da API
 router.post('/like', likedAnimalsControllers.LikeAnimal);
-router.get('/likes', likedAnimalsControllers.GetLikedAnimalsByUser);
+router.get('/likesByUser/:id', likedAnimalsControllers.GetLikedAnimalsByUser);
+router.delete('/removelikesByUser/:id', likedAnimalsControllers.RemoveLikeAnimalByUser);
 
 
 module.exports = router;
