@@ -3,12 +3,13 @@ const likedAnimal = require('../models/LikedAnimals');
 module.exports = {
   
     async LikeAnimal(req, res) {
-      const { id, user_id, animal_id, name, idade, raca, sexo, image_url  } = req.body;
+      const { id, user_id, animal_id, ong_id, name, idade, raca, sexo, image_url  } = req.body;
       try {
         const liked = await likedAnimal.create({ 
           id, 
           user_id, 
           animal_id,
+          ong_id,
           name,
           idade,
           raca,

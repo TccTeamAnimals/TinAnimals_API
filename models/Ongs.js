@@ -21,6 +21,22 @@ const Ong = sequelize.define('Ongs', {
     allowNull: false,
     unique: true,
   },
+  district: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  numero: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  cep: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   password: {
     type: DataTypes.STRING,
     allowNull: false,

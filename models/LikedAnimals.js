@@ -15,7 +15,11 @@ const likedAnimals  = sequelize.define('likedAnimals', {
   animal_id: {
     type: DataTypes.STRING,
     allowNull: false,
-  }, 
+  },
+  ong_id: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },  
   name: {
     type: DataTypes.STRING,
     allowNull: false,

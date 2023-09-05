@@ -49,7 +49,7 @@ module.exports = {
   },
 
   async createOng(req, res) {
-    const { id, name, phone, email, password, typeCad } = req.body;
+    const { id, name, phone, email, district, address, numero, cep, password, typeCad } = req.body;
     try {
       const emailUsed = await Ong.findOne({ where: { email } });
       if (emailUsed) {
@@ -61,7 +61,11 @@ module.exports = {
         id, 
         name, 
         phone, 
-        email, 
+        email,
+        district,
+        address, 
+        numero,
+        cep,
         password: hashedPassword, 
         typeCad 
       });
@@ -81,7 +85,7 @@ module.exports = {
       if (!ong) {
         res.status(404).json({ message: 'Ong não encontrada' });
       } else {
-        // Use um objeto auxiliar para armazenar os campos a serem atualizados
+      
         const updatedFields = {};
         
         // Verifique se cada campo não está vazio e atualize apenas os campos não vazios
