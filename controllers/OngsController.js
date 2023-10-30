@@ -1,6 +1,7 @@
 const Ong = require('../models/Ongs');
 const bcrypt = require('bcryptjs');
 const RegisterAnimal = require('../models/RegisterAnimals');
+const chat = require('../models/chat');
 
 module.exports = {
   async getAll(req, res) {

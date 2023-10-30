@@ -1,5 +1,7 @@
 const User = require('../models/Users');
 const bcrypt = require('bcryptjs');
+const chat = require('../models/chat');
+
 
 module.exports = {
   async getAll(req, res) {
@@ -86,7 +88,7 @@ module.exports = {
       } else {
         const updatedFields = {};
         
-        // Verifique se cada campo não está vazio e atualize apenas os campos não vazios
+        // Verifica se cada campo não está vazio e atualize apenas os campos não vazios
         if (name !== undefined && name.trim() !== '') {
           updatedFields.name = name.trim();
         }

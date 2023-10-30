@@ -1,6 +1,24 @@
+const http = require('http');
 const express = require('express');
-const bodyParser = require('body-parser');
+const { Server } = require('socket.io');
+
+const socketRoute = require('./socket/routes');
+const { onIdentification, onMessage, onConnection } = require('./functions');
+const routes = require('./routes/Users/routesUsers');
+const routesOngs = require('./routes/Ongs/routesOngs');
+const routesLikes = require('./routes/LikedAnimal/routesLikedAnimal');
+const routesChat = require('./routes/Chat/chat');
+
 const app = express();
+app.use(express.json());
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  }
+});
+socketRoute(io);
+
 // const cors = require('cors');
 
 app.use((req, res, next) => {
@@ -10,23 +28,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Configurar o body-parser para analisar o corpo das requisições
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cors());
 
 // Rotas da API
-const routes = require('./routes/Users/routesUsers');
-app.use('/api', routes);
-
-const routesOngs = require('./routes/Ongs/routesOngs');
-app.use('/api', routesOngs);
-
-const routesLikes = require('./routes/LikedAnimal/routesLikedAnimal');
-app.use('/api', routesLikes);
+app.use('/api', routes, routesOngs, routesLikes, routesChat);
 
 // Iniciar o servidor
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
