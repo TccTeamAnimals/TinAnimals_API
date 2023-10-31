@@ -35,12 +35,13 @@ module.exports = async (io) => {
       console.log(`[SOCKET] /join-room - ${socket.id}`);
       const room_id = `${data.user_id}-${data.ong_id}`
 
-      console.log('DIGUINNNN', room_id)
-
+      console.log("ROOOOM ID", room_id)
+      console.log("data.user_id", data.user_id)
+      console.log("data.ong_id", data.ong_id)
       socket.join(room_id)
       
       const chat = await chatModel.findOne({ where: { id: room_id } })
-      const messages = chat.dataValues.mensagens
+      const messages =  chat.dataValues ? chat.dataValues.mensagens : []
 
       socket.emit('join-room-response', { status: 'success', messages })
     })
@@ -49,10 +50,12 @@ module.exports = async (io) => {
       console.log(`[SOCKET] /message - ${socket.id}`);
       const room_id = `${data.user_id}-${data.ong_id}`
 
-      const chat = chatModel.findOne({ where: { id: room_id } })
+      const chat = await chatModel.findByPk(room_id);
 
-      const messages = JSON.parse(chat.mensagens)
+      
+      const messages = ( JSON.parse(chat.mensagens) ? JSON.parse(chat.mensagens) : [] )
 
+      console.log("DATA.MESSAGE", data.message)
       messages.push(data.message)
 
       await chatModel.update({ mensagens: JSON.stringify(messages) }, { where: { id: room_id } })

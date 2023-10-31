@@ -3,7 +3,6 @@ const express = require('express');
 const { Server } = require('socket.io');
 
 const socketRoute = require('./socket/routes');
-const { onIdentification, onMessage, onConnection } = require('./functions');
 const routes = require('./routes/Users/routesUsers');
 const routesOngs = require('./routes/Ongs/routesOngs');
 const routesLikes = require('./routes/LikedAnimal/routesLikedAnimal');

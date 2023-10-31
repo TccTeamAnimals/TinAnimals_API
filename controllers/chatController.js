@@ -33,8 +33,6 @@ module.exports = {
           }
         });
 
-        console.log('CAIU AAQQQQUI', chats);
-
         chats = await Promise.all(chats.map(async (chat) => {
           return {
             ...chat.dataValues,
