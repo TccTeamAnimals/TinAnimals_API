@@ -53,7 +53,7 @@ module.exports = async (io) => {
       const chat = await chatModel.findByPk(room_id);
 
       
-      const messages = ( JSON.parse(chat.mensagens) ? JSON.parse(chat.mensagens) : [] )
+      const messages = ((chat) ? JSON.parse(chat.mensagens) : [] )
 
       console.log("DATA.MESSAGE", data.message)
       messages.push(data.message)
