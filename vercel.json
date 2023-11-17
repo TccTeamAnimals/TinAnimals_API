@@ -8,6 +8,14 @@
     ],
     "routes": [
         {
+            "src": "/api/users/login",
+            "dest": "/server.js",
+            "methods": ["POST"],
+            "cors": {
+              "origin": "*"
+            }
+        }
+        ,{
             "src": "/(.*)",
             "dest": "/"
         }
