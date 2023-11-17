@@ -18,7 +18,7 @@ const io = new Server(server, {
 });
 socketRoute(io);
 
-const cors = require('cors');
+// const cors = require('cors');
 
 // app.use((req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitações de qualquer domínio
@@ -27,7 +27,7 @@ const cors = require('cors');
 //   next();
 // });
 
-app.use(cors());
+// app.use(cors());
 
 // Rotas da API
 app.use('/api', routes, routesOngs, routesLikes, routesChat);
