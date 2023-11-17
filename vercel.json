@@ -9,10 +9,15 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/",
-            "cors": {
-                "origin": "*"
-              }
+            "dest": "/"
         }
-    ]
+    ],
+    "functions": {
+        "api/**/*.js": {
+          "runtime": "node@18",
+          "cors": {
+            "origin": "*"
+          }
+        }
+    }
 }
