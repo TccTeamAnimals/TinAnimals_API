@@ -20,12 +20,12 @@ socketRoute(io);
 
 // const cors = require('cors');
 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitações de qualquer domínio
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Métodos HTTP permitidos
-//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Cabeçalhos permitidos
-//   next();
-// });
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Permitir solicitações de qualquer domínio
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Métodos HTTP permitidos
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Cabeçalhos permitidos
+  next();
+});
 
 // app.use(cors());
 
