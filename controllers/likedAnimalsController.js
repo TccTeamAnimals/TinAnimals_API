@@ -14,7 +14,7 @@ module.exports = {
         });
   
         if (existingLike) {
-          return res.status(400).json({ message: 'Animal já curtido' });
+          return res.status(400).json({ message: 'Animal Já Curtido' });
         }
 
         const liked = await likedAnimal.create({ 
