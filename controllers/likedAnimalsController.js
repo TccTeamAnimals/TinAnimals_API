@@ -5,6 +5,18 @@ module.exports = {
     async LikeAnimal(req, res) {
       const { id, user_id, animal_id, ong_id, name, idade, raca, sexo, image_url  } = req.body;
       try {
+
+        const existingLike = await likedAnimal.findOne({
+          where: {
+            user_id: user_id,
+            animal_id: animal_id
+          }
+        });
+  
+        if (existingLike) {
+          return res.status(400).json({ message: 'Animal já curtido' });
+        }
+
         const liked = await likedAnimal.create({ 
           id, 
           user_id, 
